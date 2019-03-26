@@ -2,15 +2,18 @@ package com.francis.mvvm.app
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.francis.mvvm.utils.UiUtils
+import javax.inject.Inject
 
-open class AppPreference(context: Context) {
+class AppPreference(context: Context) {
 
-    private var sharedPreferences: SharedPreferences? = null
+    private val TAG = this::class.java.simpleName
+    @set:Inject
+    internal var sharedPreferences: SharedPreferences? = null
+
 
     init {
-        sharedPreferences =
-            context.applicationContext.getSharedPreferences("MY_DB", Context.MODE_PRIVATE)
-
+        AppController.Injector.inject(this)
     }
 
 
@@ -18,7 +21,14 @@ open class AppPreference(context: Context) {
 
 
     var name: String?
-        get() = sharedPreferences?.getString(NAME, "")
+        get() {
+            if (sharedPreferences == null) {
+                UiUtils.errorLog(TAG, "shared preference is null")
+            }else{
+                UiUtils.errorLog(TAG, "shared preference is not null")
+            }
+            return sharedPreferences?.getString(NAME, "")
+        }
         set(value) = sharedPreferences?.edit()?.putString(NAME, value)!!.apply()
 
 

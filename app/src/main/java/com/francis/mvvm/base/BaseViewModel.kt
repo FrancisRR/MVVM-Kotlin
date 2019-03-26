@@ -7,13 +7,17 @@ import androidx.lifecycle.ViewModel
 import com.francis.mvvm.app.AppController
 import com.francis.mvvm.app.Repo
 import com.francis.mvvm.utils.UiUtils
+import javax.inject.Inject
 
 abstract class BaseViewModel : ViewModel() {
+
+    @set:Inject
     internal var repo: Repo? = null
+
     private var dialog: ProgressDialog? = null
 
     init {
-        repo = AppController.getInstance()?.repo
+        AppController.Injector.inject(this)
     }
 
 

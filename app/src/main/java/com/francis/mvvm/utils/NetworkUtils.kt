@@ -7,9 +7,9 @@ import com.francis.mvvm.app.AppController
 object NetworkUtils {
 
 
-     fun isNetworkAvailable(): Boolean {
+    fun isNetworkAvailable(): Boolean {
         val connectivityManager =
-            AppController.getInstance()?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            AppController.instance.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
         return networkInfo.isConnected;
     }

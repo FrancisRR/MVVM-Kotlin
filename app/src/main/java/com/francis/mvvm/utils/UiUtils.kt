@@ -2,6 +2,7 @@ package com.francis.mvvm.utils
 
 import android.app.ProgressDialog
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 
 object UiUtils {
@@ -16,4 +17,7 @@ object UiUtils {
         Toast.makeText(context, "" + msg, Toast.LENGTH_SHORT).show()
     }
 
+    fun errorLog(TAG: String?, msg: String?) {
+        Log.e(TAG, msg)
+    }
 }

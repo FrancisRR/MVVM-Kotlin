@@ -6,7 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import com.francis.mvvm.base.BaseViewModel
 import com.francis.mvvm.data.response.postdetails.PostDetailsResponse
 import com.francis.mvvm.utils.RxJavaUtils
+import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
 
+@SuppressLint("CheckResult")
 class MainActivityViewModel() : BaseViewModel() {
 
     private var TAG = this::class.java.simpleName
@@ -23,11 +26,12 @@ class MainActivityViewModel() : BaseViewModel() {
 
     }
 
-    @SuppressLint("CheckResult")
+
     fun fetchApi() {
-        showLoading(context, "")
         repo?.postDetails()
             ?.compose(RxJavaUtils.applyObserverbleScheduler())
+            ?.doOnSubscribe { showLoading(context, "") }
+            ?.doOnTerminate { hideLoading() }
             ?.subscribe({ response ->
                 postDetailsResponse?.value = response
                 hideLoading()
@@ -36,6 +40,15 @@ class MainActivityViewModel() : BaseViewModel() {
                 hideLoading()
                 exceptionHandling(thowable)
             })
+    }
+
+
+    fun fetchZipOperator() {
+        Observable.zip(repo?.postDetails(), repo?.postDetails(),
+            BiFunction { t1: PostDetailsResponse, t2: PostDetailsResponse ->  })
+            .compose(RxJavaUtils.applyObserverbleScheduler())
+            .subscribe({ res -> }, { thro -> })
+
     }
 
 

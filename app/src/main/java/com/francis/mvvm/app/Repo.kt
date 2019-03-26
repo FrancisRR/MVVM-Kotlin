@@ -3,13 +3,15 @@ package com.francis.mvvm.app
 import com.francis.mvvm.data.response.postdetails.PostDetailsResponse
 import com.francis.mvvm.utils.RxJavaUtils
 import io.reactivex.Observable
+import javax.inject.Inject
 
 class Repo(val repoApi: RepoApi) {
 
-    var preference: AppPreference? = null
+    @Inject
+    lateinit var preference: AppPreference
 
     init {
-        preference = AppController.getInstance()?.preference
+        AppController.Injector.inject(this)
     }
 
 
