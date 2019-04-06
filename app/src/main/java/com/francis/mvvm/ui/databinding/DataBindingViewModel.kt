@@ -1,22 +1,27 @@
 package com.francis.mvvm.ui.databinding
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.francis.mvvm.base.BaseViewModel
+import com.francis.mvvm.utils.UiUtils
 
 class DataBindingViewModel : BaseViewModel() {
 
     private val TAG = this::class.java.simpleName
-    private var data: MutableLiveData<Int>? = null
-    private lateinit var data1: String
+    val liveData: LiveData<String>
+        get() = mutableData
+
+    var mutableData: MutableLiveData<String> = MutableLiveData()
+    var normalString = "Hai"
 
     init {
-        data = MutableLiveData()
     }
 
 
     public fun buttonClickAction() {
-        data1 = (1..10).random().toString()
-        data?.value = (1..10).random()
+        UiUtils.errorLog(TAG, "triggered")
+        normalString = (1..10).random().toString()
+        mutableData.value = normalString
     }
 
 
