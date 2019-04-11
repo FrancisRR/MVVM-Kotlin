@@ -10,6 +10,7 @@ class AppController : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        instance=this
         Injector = DaggerAppComponent.builder().appModule(AppModule(this)).build()
     }
 
